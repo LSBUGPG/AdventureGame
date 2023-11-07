@@ -6,11 +6,12 @@ public class Eat : MonoBehaviour
 {
     public EnergyHUD energyHUD;
     public Health health;
-    float energy = 2000f;
+    public float maxEnergy = 2000f;
+    float energy;
 
     public void Consume(float food)
     {
-        energy += food;
+        energy = Mathf.Min(energy + food, maxEnergy);
         UpdateEnergyHUD();
     }
 
@@ -24,6 +25,7 @@ public class Eat : MonoBehaviour
 
     void Start()
     {
+        energy = maxEnergy;
         UpdateEnergyHUD();
         StartCoroutine(Heal());
     }

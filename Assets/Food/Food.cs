@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// I used this code from https://github.com/LSBUGPG/AdventureGame
+
 public class Food : MonoBehaviour
 {
     public enum Type

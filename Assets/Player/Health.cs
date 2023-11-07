@@ -7,11 +7,13 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     public HealthHUD healthHUD;
-    float health = 100f;
+    public float maxHealth = 100f;
+    float health;
     Coroutine burning;
 
     void Start()
     {
+        health = maxHealth;
         healthHUD.UpdateHealth(health);
     }
 
@@ -31,9 +33,12 @@ public class Health : MonoBehaviour
         burning = null;
     }
 
-    public void Heal(float health)
+    public void Heal(float heal)
     {
-        this.health += health;
-        healthHUD.UpdateHealth(this.health);
+        if (health < maxHealth)
+        {
+            health = Mathf.Min(health + heal, maxHealth);
+            healthHUD.UpdateHealth(health);
+        }
     }
 }
