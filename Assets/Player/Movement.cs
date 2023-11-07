@@ -3,28 +3,40 @@ using UnityEngine.InputSystem;
 
 public class Movement : MonoBehaviour
 {
+    Controls controls;
+    InputAction movementAction;
+    Vector2 movement;
     public CharacterController controller;
     public float speed = 1f;
 
+    void OnEnable()
+    {
+        controls = new Controls();
+        controls.Enable();
+        movementAction = controls.FindAction("Movement");
+        movementAction.performed += PerformMovement;
+        movementAction.canceled += CancelMovement;
+    }
+
+    void OnDisable()
+    {
+        movementAction.performed -= PerformMovement;
+        movementAction.canceled -= CancelMovement;
+        controls.Dispose();
+    }
+
+    void PerformMovement(InputAction.CallbackContext context)
+    {
+        movement = context.ReadValue<Vector2>();
+    }
+
+    void CancelMovement(InputAction.CallbackContext context)
+    {
+        movement = Vector2.zero;
+    }
+
     void Update()
     {
-        Vector3 movement = Vector3.zero;
-        if (Keyboard.current.aKey.isPressed)
-        {
-            movement.x = -1f;
-        }
-        else if (Keyboard.current.dKey.isPressed)
-        {
-            movement.x = 1f;
-        }
-        else if (Keyboard.current.wKey.isPressed)
-        {
-            movement.z = 1f;
-        }
-        else if (Keyboard.current.sKey.isPressed)
-        {
-            movement.z = -1f;
-        }
-        controller.SimpleMove(movement * speed);
+        controller.SimpleMove(new Vector3(movement.x, 0f, movement.y) * speed);
     }
 }
