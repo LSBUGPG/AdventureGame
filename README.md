@@ -2,6 +2,7 @@
 My example game prototype
 
 ## Features
+- Move with WASD
 - Player energy slowly drops
 - Eat food to restore energy
 - Different foods restore different amounts of energy
